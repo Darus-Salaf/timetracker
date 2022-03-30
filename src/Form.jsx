@@ -32,13 +32,18 @@ export default function Form() {
   const handlePost = () => {
     setDrop(true)
 
+    let email = localStorage.getItem('email')
+    let avatar = localStorage.getItem('avatar')
+
     let info = {
       project: pro,
       task: task,
       work: work,
       intime: new Date(),
       outtime: '',
-      total: ''
+      total: '',
+      email,
+      avatar
     }
 
     fetch('http://localhost:5000/datacenter/api/time', {
@@ -49,8 +54,8 @@ export default function Form() {
       body: JSON.stringify(info)
     })
       .then(res => res.json())
-      .then(data => console.log(data))
-      .catch(err => console.log(err))
+      .then(data => console.log('data', data))
+      .catch(err => alert(err.message))
 
     setDrop(false)
 
@@ -68,8 +73,8 @@ export default function Form() {
       >
         <CircularProgress color="warning" />
       </Backdrop>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open form dialog
+      <Button variant="contained" color="primary" onClick={handleClickOpen}>
+        Start your day!
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Subscribe</DialogTitle>
