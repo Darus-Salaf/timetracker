@@ -17,7 +17,7 @@ import { AdminContext } from './App'
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
+      <span style={{ fontWeight: 'bold' }}>{'Time Tracker, '}</span> {'Copyright © '}
       <Link color="primary" href="https://fb.com/rabibinsalam">
         Rabius Sunny
       </Link>{' '}
@@ -77,7 +77,7 @@ export default function Login() {
       })
   }
 
-  return <Container component="main" maxWidth="xs">
+  return <Container maxWidth="xs">
     <Backdrop
       sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
       open={spinner}
@@ -86,19 +86,19 @@ export default function Login() {
 
     <Box
       sx={{
-        marginTop: 8,
+        marginTop: 5,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        background: '#0080ff4f',
-        pt: 5, pb: 5, pr: 3, pl: 3,
+        background: '#130568',
+        pt: 3, pb: 5, pr: 3, pl: 3,
         borderRadius: 5
       }}
     >
       <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
         <LockOutlinedIcon />
       </Avatar>
-      <Typography component="h1" variant="h5">
+      <Typography style={{ color: 'white' }} component="h1" variant="h5">
         Sign in
       </Typography>
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -111,6 +111,7 @@ export default function Login() {
           name="email"
           autoComplete="email"
           autoFocus
+          className='login'
         />
         <TextField
           margin="normal"
@@ -120,6 +121,7 @@ export default function Login() {
           label="Password"
           type="password"
           id="password"
+          className='login'
         />
         <TextField
           margin="normal"
@@ -129,6 +131,7 @@ export default function Login() {
           label="Code"
           type="password"
           id="code"
+          className='login'
         />
         <Button
           type="submit"
@@ -146,7 +149,7 @@ export default function Login() {
           </Grid>
           <Grid item>
             <Link href="#" variant="body2">
-              {"Don't have an account? Sign Up"}
+              {"Sign Up"}
             </Link>
           </Grid>
         </Grid>

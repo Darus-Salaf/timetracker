@@ -1,0 +1,71 @@
+// padding
+@for $i from 1 through 10 {
+  .p-#{$i} {
+    padding: $i * 10px;
+  }
+}
+
+@for $i from 1 through 10 {
+  .pt-#{$i} {
+    padding-top: $i * 10px;
+  }
+}
+
+@for $i from 1 through 10 {
+  .pe-#{$i} {
+    padding-right: $i * 10px;
+  }
+}
+
+@for $i from 1 through 10 {
+  .ps-#{$i} {
+    padding-left: $i * 10px;
+  }
+}
+
+@for $i from 1 through 10 {
+  .pb-#{$i} {
+    padding-bottom: $i * 10px;
+  }
+}
+
+.px-auto {
+  padding-left: auto !important;
+  padding-right: auto !important;
+}
+
+// margin
+@for $j from 1 through 10 {
+  .m-#{$j} {
+    margin: $j * 10px;
+  }
+}
+
+@for $j from 1 through 10 {
+  .mt-#{$j} {
+    margin-top: $j * 10px;
+  }
+}
+
+@for $j from 1 through 10 {
+  .me-#{$j} {
+    margin-right: $j * 10px;
+  }
+}
+
+@for $j from 1 through 10 {
+  .ms-#{$j} {
+    margin-left: $j * 10px;
+  }
+}
+
+@for $j from 1 through 10 {
+  .mb-#{$j} {
+    margin-bottom: $j * 10px;
+  }
+}
+
+.mx-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}

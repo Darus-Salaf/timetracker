@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -13,21 +12,16 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import { projects } from './fakedata';
 
 export default function Form() {
   const [open, setOpen] = React.useState(false);
   const [pro, setPro] = React.useState('')
-  const [task, setTask] = React.useState('')
-  const [work, setWork] = React.useState('')
   const [drop, setDrop] = React.useState(false)
 
   const handleClickOpen = () => setOpen(true)
-
   const handleClose = () => setOpen(false)
-
-  const handleproject = event => setPro(event.target.value)
-  const handletask = event => setTask(event.target.value)
-  const handlework = event => setWork(event.target.value)
+  const handleproject = e => setPro(e.target.value)
 
   const handlePost = () => {
     setDrop(true)
@@ -37,8 +31,6 @@ export default function Form() {
 
     let info = {
       project: pro,
-      task: task,
-      work: work,
       intime: new Date(),
       outtime: '',
       total: '',
@@ -54,13 +46,17 @@ export default function Form() {
       body: JSON.stringify(info)
     })
       .then(res => res.json())
-      .then(data => console.log('data', data))
-      .catch(err => alert(err.message))
+      .then(data => {
+        alert(data.message)
+        window.location.reload()
+      })
+      .catch(err => {
+        alert(err.message)
+        setDrop(false)
+        setOpen(false)
+      })
 
     setDrop(false)
-
-    console.log('info', info)
-
     setOpen(false);
   }
 
@@ -77,11 +73,10 @@ export default function Form() {
         Start your day!
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>Clock in here</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
+            To clock in and start your day, select the project from below here and hit START.
           </DialogContentText>
 
           <div style={{ margin: '20px 0' }}>
@@ -94,41 +89,14 @@ export default function Form() {
                   label="Project"
                   onChange={handleproject}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {
+                    projects.map(project => <MenuItem key={project} value={project}>{project}</MenuItem>)
+                  }
+
+
                 </Select>
               </FormControl>
             </Box>
-          </div>
-
-          <div style={{ margin: '10px 0' }}>
-            <Box sx={{ minWidth: 120 }}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Tasks</InputLabel>
-                <Select
-                  value={task}
-                  label="Task"
-                  onChange={handletask}
-                >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-          </div>
-
-          <div style={{ marginBottom: '10px' }}>
-            <TextField
-              label="Works"
-              fullWidth
-              variant="standard"
-              multiline
-              maxRows={5}
-              value={work}
-              onChange={handlework}
-            />
           </div>
 
         </DialogContent>

@@ -1,12 +1,12 @@
 import Times from "./Times";
-import Container from '@mui/material/Container'
 import {
   BrowserRouter, Routes, Route
 } from 'react-router-dom'
 import Login from "./Login";
 import Private from './Private'
 import { createContext, useEffect, useState } from "react";
-import { Avatar } from "@mui/material";
+import Logout from "./components/Logout";
+import Profile from "./Profile";
 
 export const AdminContext = createContext()
 
@@ -22,15 +22,16 @@ export default function App() {
   }, [isAdmin])
 
   return <BrowserRouter>
-    <Container>
+    <div style={{ position: 'relative' }}>
       <AdminContext.Provider value={[admin, setAdmin]}>
         <Routes>
           <Route path="/" element={<Private><Times /></Private>} />
           <Route path="/login" element={<Login />} />
           <Route path="/times/:page" element={<Private><Times /></Private>} />
+          <Route path="/profile" element={<Private><Profile /></Private>} />
         </Routes>
-        <div style={{display: 'flex', justifyContent: 'end'}}><Avatar style={{ background: 'slateblue', fontSize: '1.2rem', height: '4rem', width: '4rem' }}>Logout</Avatar></div>
+        {isAdmin && <Logout />}
       </AdminContext.Provider>
-    </Container>
+    </div>
   </BrowserRouter>
 }
