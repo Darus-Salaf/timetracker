@@ -54,7 +54,7 @@ export default function WorkDialog({ open, handleClose, handleOpen, work, link }
           {work}
           <h4>Links</h4>
           {
-            links && links.map((l, i) => <p>Link {i + 1}: <a href={l}>{l}</a></p>)
+            links && links.map((l, i) => <p>Link {i + 1}: <a target="_blank" rel="noreferrer" href={l}>{l}</a></p>)
           }
         </Container>
       </Dialog>
