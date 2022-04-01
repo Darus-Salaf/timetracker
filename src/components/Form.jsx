@@ -40,7 +40,7 @@ export default function Form() {
       avatar
     }
 
-    fetch('http://localhost:5000/datacenter/api/time', {
+    fetch('https://darulislam.foundation/datacenter/api/time', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

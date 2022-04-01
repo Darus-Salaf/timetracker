@@ -13,7 +13,7 @@ export default function Profile() {
 
   useEffect(() => {
     setSpinner(true)
-    fetch(`http://localhost:5000/datacenter/api/time-profile/${email}`)
+    fetch(`https://darulislam.foundation/datacenter/api/time-profile/${email}`)
       .then(res => res.json())
       .then(data => {
         setProfile(data.user[0])
@@ -38,7 +38,7 @@ export default function Profile() {
       avatar: data.get('avatar'),
     }
 
-    fetch('http://localhost:5000/datacenter/api/time-profile/update', {
+    fetch('https://darulislam.foundation/datacenter/api/time-profile/update', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

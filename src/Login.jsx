@@ -44,7 +44,7 @@ export default function Login() {
       password: data.get('password'),
       code: data.get('code'),
     }
-    fetch('http://localhost:5000/datacenter/api/time/login', {
+    fetch('https://darulislam.foundation/datacenter/api/time/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

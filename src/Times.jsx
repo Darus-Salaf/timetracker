@@ -59,7 +59,7 @@ export default function Times() {
   useEffect(() => {
     setSpinner(true)
     let email = localStorage.getItem('email')
-    fetch(`http://localhost:5000/datacenter/api/gettime/${page}/${email}`)
+    fetch(`https://darulislam.foundation/datacenter/api/gettime/${page}/${email}`)
       .then(res => res.json())
       .then(data => {
         setSpinner(false)
@@ -109,7 +109,7 @@ export default function Times() {
       link
     }
 
-    fetch('http://localhost:5000/datacenter/api/time-update', {
+    fetch('https://darulislam.foundation/datacenter/api/time-update', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
