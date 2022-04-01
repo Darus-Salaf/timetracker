@@ -19,6 +19,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
+import WorkDialog from "./components/WorkDialog";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -30,13 +31,21 @@ export default function Times() {
   // eslint-disable-next-line
   const [admin, setAdmin] = useContext(AdminContext)
   const [open, setOpen] = useState(false)
+  const [open2, setOpen2] = useState(false)
   const [data, setData] = useState({
-    id: '',
-    total: '',
-    outtime: '',
     work: '',
     link: ''
   })
+  const [data2, setData2] = useState({
+    id: '',
+    outtime: '',
+    total: ''
+  })
+  const [info2, setInfo2] = useState({
+    work: '',
+    link: ''
+  })
+  const handleInfo = (work, link) => setInfo2({ work, link })
 
   const [info, setInfo] = useState({
     count: 0,
@@ -64,14 +73,40 @@ export default function Times() {
 
   }, [page])
 
-  const handleUpdate = (id, intime) => {
+  const onChange = e => {
+    let copyData = { ...data }
+    copyData[e.target.name] = e.target.value
+    setData(copyData)
+  }
+
+  const handleClose = () => setOpen(false)
+  const handleOpen = (id, intime) => {
+    setOpen(true)
     let outtime = new Date()
     let subTotal = outtime.getTime() - new Date(intime).getTime()
     let total = (((subTotal / 1000) / 60) / 60).toFixed(2)
-    let data = {
+    setData2({
       id,
       outtime,
       total
+    })
+  }
+  const handleOpen2 = () => setOpen2(true)
+  const handleClose2 = () => setOpen2(false)
+  const clockOut = () => handleUpdate(data2.id, data2.outtime, data2.total, data.work, data.link)
+  const handleUpdate = (id, outtime, total, work, link) => {
+
+    if (!work) {
+      alert('Please update your work field')
+      return
+    }
+
+    let data = {
+      id,
+      outtime,
+      total,
+      work,
+      link
     }
 
     fetch('http://localhost:5000/datacenter/api/time-update', {
@@ -82,14 +117,17 @@ export default function Times() {
       body: JSON.stringify(data)
     })
       .then(res => res.json())
-      .then(data => console.log(data))
-      .catch(err => console.log(err))
+      .then(data => {
+        alert(data.message)
+        setOpen(false)
+        window.location.reload()
+      })
+      .catch(err => {
+        alert(err.message)
+        setOpen(false)
+        window.location.reload()
+      })
   }
-  const handleClose = () => setOpen(false)
-  const clockout = (id, intime) => {
-
-  }
-
   return (
     <div>
       <Backdrop
@@ -119,20 +157,23 @@ export default function Times() {
               autoFocus
               multiline
               maxRows={5}
+              onChange={onChange}
             />
             <TextField
               fullWidth
               label="Link"
               name="link"
+              onChange={onChange}
             />
           </DialogContent>
           <DialogActions>
             <Button color="warning" onClick={handleClose}>Cancel</Button>
-            <Button color="primary" onClick={handleClose}>Clock out</Button>
+            <Button color="primary" onClick={clockOut}>Clock out</Button>
           </DialogActions>
         </Dialog>
       </div>
-      <h1 className="center">Welcome back <Link to='/profile' style={{ color: '#1976d2', paddingLeft: 10 }}>{localStorage.getItem('name')}</Link></h1>
+      <h1 className="center">Welcome back !</h1>
+      <h1 className="center"><Link to='/profile' style={{ color: '#1976d2' }}>{localStorage.getItem('name')}</Link></h1>
       <hr
         style={{ height: '2px', background: '#1976d2' }} />
       {!admin && <div className="center mt-5 mb-5"><Form /></div>}
@@ -162,8 +203,15 @@ export default function Times() {
                   <TableCell><Typography style={{ fontSize: '0.7rem' }}>{moment(row.intime).format('MMM D, YYYY. h:mm a')}</Typography></TableCell>
                   <TableCell><Typography style={{ fontSize: '0.7rem' }}>{row.outtime ? moment(row.outtime).format('MMM D, YYYY. h:mm a') : 'working...'}</Typography></TableCell>
                   <TableCell>{row.total} hrs</TableCell>
-                  <TableCell>notes</TableCell>
-                  {!admin && !row.outtime && <TableCell><Button variant="contained" color="primary" onClick={() => clockout(row._id, row.intime)}>clock out</Button></TableCell>}
+                  <TableCell><span style={{ background: 'none', border: 0 }} onClick={() => handleInfo(row.work, row.link)}>
+                    <WorkDialog
+                      handleOpen={handleOpen2}
+                      open={open2}
+                      handleClose={handleClose2}
+                      work={info2.work}
+                      link={info2.link}
+                    /></span></TableCell>
+                  {!admin && !row.outtime && <TableCell><Button variant="contained" color="primary" onClick={() => handleOpen(row._id, row.intime)}>clock out</Button></TableCell>}
                 </TableRow>)
               }
             </TableBody>
@@ -178,5 +226,3 @@ export default function Times() {
     </div>
   )
 }
-
-// handleUpdate(row._id, row.intime)

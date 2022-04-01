@@ -34,6 +34,8 @@ export default function Form() {
       intime: new Date(),
       outtime: '',
       total: '',
+      work: '',
+      linl: '',
       email,
       avatar
     }
